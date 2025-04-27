@@ -1,0 +1,403 @@
+import Layout from "../../../components/Layout";
+import Router from "next/router";
+import CardComponent from "../compponents/CardComponent";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+
+import FormControl from "@mui/material/FormControl";
+import FormGroup from "@mui/material/FormGroup";
+import InputLabel from "@mui/material/InputLabel";
+// import roomData from "../data/bookRoomData.json";
+import TextField from "@mui/material/TextField";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import React, { useEffect, useState } from "react";
+import { Dayjs } from "dayjs";
+import { Button, Stack } from "@mui/material";
+
+import BookSpaceContext from "../../../context/BookSpaceContext";
+import { useRecoilState } from "recoil";
+import {
+  selectedRoomState,
+  bookRoomState,
+  searchBookRoomState,
+  bookMeetingFormState,
+  selectedParkingSlotState,
+  selectedMeetingServiceState,
+} from "../../_app";
+import { getSpaceBySearchCriteria } from "../../../services/bookSpace.service";
+import {
+  IAvailableFloorDetail,
+  IAvailableSpaceDetail,
+  IBookParking,
+  IMeetingService,
+  ISpaceResource,
+} from "../types/bookSpace";
+import BookSpaceFloorViewer from "../compponents/BookSpaceFloorViewer";
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+function TabPanel(props: TabPanelProps) {
+  // const [location, setLocation] = useState("");
+
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 2 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
+
+const BookRoom = () => {
+  const [valueTab, setValueTab] = React.useState(0);
+  const [searchResult, setSearchResult] = useState<{
+    [key: string]: IAvailableFloorDetail;
+  } | null>(null);
+  const [selectedFloorId, setSelectedFloorId] = useState<string>("");
+  const spaceContextValue = React.useContext(BookSpaceContext);
+  const [value, setValue] = React.useState<Dayjs | null>(
+    spaceContextValue.bookRoomInfo?.startDate
+  );
+  const [bookingServiceDetails, setBookingServiceDetails] =
+    useRecoilState(bookRoomState);
+  const [selectedRoomDetails, setSelectedRoomDetails] =
+    useRecoilState(selectedRoomState);
+  const [meetingFormState, setMeetingFormState] =
+    useRecoilState(bookMeetingFormState);
+  const [searchBookingState, setSearchBookingState] =
+    useRecoilState(searchBookRoomState);
+  const [selectedParking, setSelectedParking] = useRecoilState(
+    selectedParkingSlotState
+  );
+  const [selectedServices, setSelectedServices] = useRecoilState(
+    selectedMeetingServiceState
+  );
+  useEffect(() => {
+    (async () => {
+      const spaceDetails: IAvailableSpaceDetail[] =
+        await getSpaceBySearchCriteria(searchBookingState);
+      let normalizedSpaceDetails: { [key: string]: IAvailableFloorDetail } = {};
+      spaceDetails.forEach((spaceDetail: IAvailableSpaceDetail) => {
+        if (
+          normalizedSpaceDetails[spaceDetail.floorId] === undefined ||
+          normalizedSpaceDetails[spaceDetail.floorId] === null
+        ) {
+          normalizedSpaceDetails[spaceDetail.floorId] = {} as any;
+          normalizedSpaceDetails[spaceDetail.floorId].floorId =
+            spaceDetail.floorId;
+          normalizedSpaceDetails[spaceDetail.floorId].floorName =
+            spaceDetail.floorName;
+          normalizedSpaceDetails[spaceDetail.floorId].floorImage =
+            spaceDetail.floorImage;
+          normalizedSpaceDetails[spaceDetail.floorId].availableSpaceDetails =
+            {} as { [key: string]: IAvailableSpaceDetail };
+          checkAndAddSpaceToFloor(
+            normalizedSpaceDetails[spaceDetail.floorId],
+            spaceDetail
+          );
+          return;
+        }
+        checkAndAddSpaceToFloor(
+          normalizedSpaceDetails[spaceDetail.floorId],
+          spaceDetail
+        );
+      });
+      setSearchResult(normalizedSpaceDetails);
+      if (Object.keys(normalizedSpaceDetails).length > 0) {
+        setSelectedFloorId(Object.keys(normalizedSpaceDetails)[0]);
+      }
+
+      console.log(normalizedSpaceDetails);
+    })();
+    console.log(bookingServiceDetails);
+    console.log(searchBookingState);
+  }, []);
+
+  const checkAndAddSpaceToFloor = (
+    normalizedFloorSpaceDetail: IAvailableFloorDetail,
+    spaceDetail: IAvailableSpaceDetail
+  ) => {
+    if (
+      normalizedFloorSpaceDetail.availableSpaceDetails[
+        spaceDetail.spaceName
+      ] === undefined ||
+      normalizedFloorSpaceDetail.availableSpaceDetails[
+        spaceDetail.spaceName
+      ] === null
+    ) {
+      normalizedFloorSpaceDetail.availableSpaceDetails[spaceDetail.spaceName] =
+        {} as IAvailableSpaceDetail;
+      normalizedFloorSpaceDetail.availableSpaceDetails[spaceDetail.spaceName] =
+        {
+          ...spaceDetail,
+          spaceResources: [
+            {
+              facilityId: spaceDetail.facilityId,
+              facilityName: spaceDetail.facilityName,
+              resourceIcon: spaceDetail.resourceIcon,
+              resourceId: spaceDetail.resourceId,
+              resourceCount: spaceDetail.resourceCount,
+            } as ISpaceResource,
+          ],
+        };
+      return;
+    }
+    normalizedFloorSpaceDetail.availableSpaceDetails[
+      spaceDetail.spaceName
+    ].spaceResources?.push({
+      facilityId: spaceDetail.facilityId,
+      facilityName: spaceDetail.facilityName,
+      resourceIcon: spaceDetail.resourceIcon,
+      resourceId: spaceDetail.resourceId,
+      resourceCount: spaceDetail.resourceCount,
+    } as ISpaceResource);
+  };
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValueTab(newValue);
+    console.log(searchBookingState);
+  };
+
+  const OnSearch = () => {};
+
+  const onBookMeetClick = () => {
+    Router.push("/bookSpaces/bookroom/bookMeetingForm");
+  };
+
+  const handleRoomSelection = (roomDetails: IAvailableSpaceDetail) => {
+    setSelectedRoomDetails([...selectedRoomDetails, roomDetails]);
+    setMeetingFormState({
+      allDays: false,
+      meetingName: "",
+      meetingType: 0,
+      notes: "",
+      participants: [],
+      referenceNumber: "",
+      reminder: 0,
+    });
+    setSelectedParking([] as IBookParking[]);
+    setSelectedServices([] as IMeetingService[]);
+  };
+
+  return (
+    <Layout>
+      <div>
+        <h2 className="text-xl font-bold">Book Room</h2>
+        <span style={{ fontSize: "12px", color: "#a5a0a0" }}>
+          {" "}
+          Check availabilty{" "}
+        </span>
+      </div>
+
+      <FormGroup>
+      <div className="flex flex-wrap md-flex-wrap gap-3 mt-5">
+          <div className="flex items-center sm:w-full">
+            <FormControl className="min-w-[8em]">
+              <FormControlLabel
+                control={<Checkbox defaultChecked />}
+                label="All Day"
+              />
+            </FormControl>
+            <FormControl className="sm:w-full">
+              <InputLabel id="reminderLabel" className="text-sm">
+                Reminder
+              </InputLabel>
+              <Select labelId="reminderLabel" label="Reminders" className="min-w-[12rem] sm:w-[full]">
+                {spaceContextValue?.bookingServiceDetails?.reminders?.map(
+                  (x) => {
+                    return (
+                      <MenuItem key={x.id} value={x.name}>
+                        {x.name}
+                      </MenuItem>
+                    );
+                  }
+                )}
+              </Select>
+            </FormControl>
+            </div>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <div className="flex sm:flex-col gap-2 sm:w-full gap-3">
+              <FormControl>
+                <DateTimePicker
+                 className="text-sm sm:w-full"
+                  renderInput={(props) => <TextField {...props} />}
+                  label="Start Date & Start Time"
+                  value={spaceContextValue.bookRoomInfo?.startDate}
+                  onChange={(newValue) => {
+                    setValue(newValue);
+                  }}
+                />
+              </FormControl>
+              <FormControl size="small">
+                <DateTimePicker
+                  className="text-sm sm:w-full"
+                  renderInput={(props) => <TextField {...props} />}
+                  label="End Date & End Time"
+                  value={spaceContextValue.bookRoomInfo?.endDate}
+                  onChange={(newValue) => {
+                    setValue(newValue);
+                  }}
+                />
+              </FormControl>
+            </div>
+            </LocalizationProvider>
+          <div className="flex gap-4 h-[3.5rem] sm:flex-col sm:w-full">
+            <Button variant="outlined" className="w-full">
+              Clear
+            </Button>
+            <Button
+              variant="contained" className="w-full"
+              onClick={OnSearch}
+            >
+              Search
+            </Button>
+          </div>
+        </div>
+      </FormGroup>
+      <div className="listMapView mt-6 sm:mt-12">
+        <div>
+          <Box sx={{ width: "100%" }}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <Tabs
+                value={valueTab}
+                onChange={handleChange}
+                aria-label="basic tabs example"
+              >
+                <Tab label="List View" {...a11yProps(0)} />
+                <Tab label="Map View" {...a11yProps(1)} />
+              </Tabs>
+            </Box>
+            <div className="py-2.5">
+              <FormControl sx={{ m: 1, minWidth: 140 }} size="small">
+                <InputLabel id="selectMapLabel">Select Map</InputLabel>
+                <Select
+                  labelId="reminderLabel"
+                  label="Select Map"
+                  onChange={(e: SelectChangeEvent<string>) => {
+                    setSelectedFloorId(e.target.value);
+                  }}
+                  value={selectedFloorId}
+                >
+                  {searchResult &&
+                    Object.keys(searchResult).map(
+                      (floor: string, index: number) => {
+                        return (
+                          <MenuItem
+                            key={searchResult[floor].floorId}
+                            value={searchResult[floor].floorId}
+                            selected={index === 0}
+                          >
+                            {searchResult[floor].floorName}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                </Select>
+              </FormControl>
+              <div className="float-right">
+                <span className="text-md font-medium text-text-light">
+                  About{" "}
+                  {bookingServiceDetails.floors
+                    ? bookingServiceDetails.floors.length
+                    : 0}{" "}
+                  result(s)
+                </span>
+              </div>
+            </div>
+            <div>
+              <TabPanel value={valueTab} index={0}>
+              <div className="flex flex-wrap gap-3">
+                  {searchResult &&
+                    searchResult[selectedFloorId] &&
+                    searchResult[selectedFloorId].availableSpaceDetails &&
+                    Object.keys(
+                      searchResult[selectedFloorId].availableSpaceDetails
+                    ).map((x: string) => {
+                      if (
+                        searchResult[selectedFloorId].availableSpaceDetails[x]
+                          .isAvailable &&
+                        searchResult[selectedFloorId].availableSpaceDetails[
+                          x
+                        ].spaceResources?.some(
+                          (resource: ISpaceResource) =>
+                            resource.resourceId === 100 &&
+                            resource.resourceCount >=
+                              searchBookingState.attendies
+                        )
+                      ) {
+                        return (
+                          <CardComponent
+                            key={
+                              searchResult[selectedFloorId]
+                                .availableSpaceDetails[x].spaceId
+                            }
+                            roomDetails={
+                              searchResult[selectedFloorId]
+                                .availableSpaceDetails[x]
+                            }
+                            isCheckBox={true}
+                            handleChecked={handleRoomSelection}
+                          />
+                        );
+                      }
+                    })}
+                </div>
+                <div className="w-full flex justify-end pt-6 pb-20">
+                <Button
+                    variant="contained"
+                    onClick={() => onBookMeetClick()}
+                  >
+                    Book Meeting
+                  </Button>
+                </div>
+              </TabPanel>
+
+              <TabPanel value={valueTab} index={1}>
+                <BookSpaceFloorViewer
+                  imageSrc={
+                    searchResult && searchResult[selectedFloorId].floorImage
+                      ? searchResult[selectedFloorId].floorImage
+                      : ""
+                  }
+                  floorSlots={[]}
+                  onSlotClick={function (slotId: string): void {
+                    throw new Error("Function not implemented.");
+                  }}
+                  selectedSlots={[]}
+                ></BookSpaceFloorViewer>
+              </TabPanel>
+            </div>
+          </Box>
+        </div>
+      </div>
+    </Layout>
+  );
+};
+export default BookRoom;

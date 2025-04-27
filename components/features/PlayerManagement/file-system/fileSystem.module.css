@@ -1,0 +1,44 @@
+.fileSystemLayout {
+    display: flex;
+    border: 1px solid #c7cdd2;
+}
+
+.fileSystemLeftPan {
+    width: 200px;
+    border-right: 1px solid #c7cdd2;
+    overflow-y: auto;
+    padding-bottom: 12px;
+}
+
+.fileSystemRightPan {
+    padding: 12px;
+    width: calc(100% - 200px);
+}
+
+.fileSystemViewOperationHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #c7cdd2;
+}
+
+.fileSystemViewOperation {
+    color: #9ba4aa;
+    font-size: 14px;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.fileSystemViewRenderTilesView {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    padding: 12px 0;
+}
+
+.customIconButton {
+    background: none;
+    border: none;
+}

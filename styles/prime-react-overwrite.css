@@ -1,0 +1,65 @@
+.p-inputtext,
+.p-dropdown {
+  width: 100%;
+}
+
+.p-inputtext.p-inputtext-sm,
+.p-inputtext-sm .p-inputtext {
+  padding: 0.5rem 0.8rem;
+}
+
+.p-dropdown .p-inputtext {
+  padding: 0.38rem 0.8rem;
+}
+
+.p-float-label label {
+  font-size: 14px;
+}
+
+.p-datatable table {
+  font-size: 0.8rem;
+  border: 1px solid #e4e4e4;
+}
+
+.p-datatable .p-datatable-thead>tr>th {
+  background: #e4f7ff;
+}
+
+.p-datatable.p-datatable-sm .p-datatable-tbody>tr>td {
+  padding: 0.2rem 0.5rem;
+}
+
+.p-datatable .p-column-header-content {
+  text-transform: uppercase;
+}
+
+.p-datatable .p-datatable-footer {
+  border-left: 1px solid #e4e4e4;
+  border-right: 1px solid #e4e4e4;
+}
+
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+  padding: 0.3rem 0.8rem;
+}
+
+.p-dropdown-item {
+  font-size: 14px;
+}
+
+.p-menu .p-menuitem-link {
+  padding: 0.5rem 0.8rem;
+  font-size: 13px;
+}
+
+.p-datatable.pk-master-table .p-datatable-thead>tr>th {
+  background: #fff;
+}
+
+.p-datatable.pk-master-table .p-datatable-thead>tr>th {
+  font-weight: 600;
+
+}
+
+.p-datatable.pk-master-table .p-datatable-tbody>tr>td {
+  font-size: 13.5px;
+}

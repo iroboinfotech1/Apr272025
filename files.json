@@ -1,0 +1,135 @@
+{
+    "name": "Home",
+    "type": "folder",
+    "items": [
+        {
+            "name": "IT",
+            "type": "folder",
+            "items": [
+                {
+                    "name": "IT_ONE",
+                    "type": "file"
+                },
+                {
+                    "name": "IT_TWO",
+                    "type": "folder",
+                    "items": [
+                        {
+                            "name": "IT_TWO_1",
+                            "type": "file"
+                        },
+                        {
+                            "name": "IT_TWO_2",
+                            "type": "file"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Intranet",
+            "type": "folder",
+            "items": [
+                {
+                    "name": "Intranet_ONE",
+                    "type": "file"
+                },
+                {
+                    "name": "Intranet_TWO",
+                    "type": "folder",
+                    "items": [
+                        {
+                            "name": "Intranet_TWO_1",
+                            "type": "file"
+                        },
+                        {
+                            "name": "Intranet_TWO_2",
+                            "type": "file"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "HR",
+            "type": "folder",
+            "items": [
+                {
+                    "name": "HR_ONE",
+                    "type": "file"
+                },
+                {
+                    "name": "HR_TWO",
+                    "type": "folder",
+                    "items": [
+                        {
+                            "name": "HR_TWO_1",
+                            "type": "file"
+                        },
+                        {
+                            "name": "HR_TWO_2",
+                            "type": "file"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Marketing",
+            "type": "folder",
+            "items": [
+                {
+                    "name": "Marketing_ONE",
+                    "type": "file"
+                },
+                {
+                    "name": "Marketing_TWO",
+                    "type": "folder",
+                    "items": [
+                        {
+                            "name": "Marketing_TWO_1",
+                            "type": "file"
+                        },
+                        {
+                            "name": "Marketing_TWO_2",
+                            "type": "file"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Sales",
+            "type": "folder",
+            "items": [
+                {
+                    "name": "Sales_ONE",
+                    "type": "file"
+                },
+                {
+                    "name": "Sales_TWO",
+                    "type": "folder",
+                    "items": [
+                        {
+                            "name": "Sales_TWO_1",
+                            "type": "file"
+                        },
+                        {
+                            "name": "Sales_TWO_2",
+                            "type": "file"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "File_One",
+            "type": "file"
+        },
+        {
+            "name": "File_Two",
+            "type": "file"
+        }
+    ]
+
+}

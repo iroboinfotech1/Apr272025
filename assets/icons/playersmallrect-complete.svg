@@ -1,0 +1,12 @@
+<!-- sample rectangle -->
+<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+  <rect width="4" height="4" x="0" y="0" fill="#1a8ff1" />
+  <rect width="4" height="4" x="5" y="0" fill="#1a8ff1" />
+  <rect width="4" height="4" x="10" y="0" fill="#1a8ff1" />
+  <rect width="4" height="4" x="0" y="5" fill="#1a8ff1" />
+  <rect width="4" height="4" x="5" y="5" fill="#1a8ff1" />
+  <rect width="4" height="4" x="10" y="5" fill="#1a8ff1" />
+  <rect width="4" height="4" x="0" y="10" fill="#1a8ff1" />
+  <rect width="4" height="4" x="5" y="10" fill="#1a8ff1" />
+  <rect width="4" height="4" x="10" y="10" fill="#1a8ff1" />
+</svg>

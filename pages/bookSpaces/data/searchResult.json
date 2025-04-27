@@ -1,0 +1,48 @@
+{
+    "Result": [
+        {
+            "id": "1",
+            "RoomName": "Quater Audit Meeting",
+            "Description": "Newton-Meeting Room",
+            "StartDate": "10/10/2022",
+            "EndDate": "11/11/2022",
+            "RoomID": "BRID20211",
+            "DeskID":"BRID20211",
+            "DeskName":"Desk 01",
+            "location":"6th Floor,smart City, UK"
+        },
+        {
+            "id": "2",
+            "RoomName": "Half Audit Meeting",
+            "Description": "Eienstein-Meeting Room",
+            "StartDate": "10/10/2022",
+            "EndDate": "11/11/2022",
+            "RoomID": "BRID20212",
+            "DeskID":"BRID20212",
+            "DeskName":"Desk 02",
+            "location":"6th Floor,smart City, UK"
+        },
+        {
+            "id": "3",
+            "RoomName": "Final Audit Meeting",
+            "Description": "Reception-Meeting Room",
+            "StartDate": "10/10/2022",
+            "EndDate": "11/11/2022",
+            "RoomID": "BRID20213",
+            "DeskID":"BRID20213",
+            "DeskName":"Desk 03",
+            "location":"6th Floor,smart City, UK"
+        },
+        {
+            "id": "4",
+            "RoomName": "Year End Audit Meeting",
+            "Description": "Floor-Meeting Room",
+            "StartDate": "10/10/2022",
+            "EndDate": "11/11/2022",
+            "RoomID": "BRID20214",
+            "DeskID":"BRID20214",
+            "DeskName":"Desk 04",
+            "location":"6th Floor,smart City, UK"
+        }
+    ]
+}

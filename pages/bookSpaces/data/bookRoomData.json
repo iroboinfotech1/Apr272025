@@ -1,0 +1,35 @@
+{
+  "locations": [
+    { "name": "Smart City, UK", "id": 1 },
+    { "name": "New York, US", "id": 2 }
+  ],
+  "buildings": [
+    { "name": "Tower 1", "id": 1 },
+    { "name": "Tower 2", "id": 2 }
+  ],
+  "floors": [
+    { "name": "1", "id": 1 },
+    { "name": "2", "id": 2 }
+  ],
+  "reminders": [
+    { "name": "10 Mins", "id": 10 },
+    { "name": "15 Mins", "id": 15 },
+    { "name": "30 Mins", "id": 30 },
+    { "name": "45 Mins", "id": 45 },
+    { "name": "60 Mins", "id": 60 }
+  ],
+  "meetPersons": [{ "name": "per1", "id": 1 }],
+  "mapDetails": [
+    { "name": "1", "id": 1 },
+    { "name": "1", "id": 1 }
+  ],
+  "participants": [
+    { "name": "Adam levar", "id": 1 },
+    { "name": "Bruno Mars", "id": 2 },
+    { "name": "Sliverson Stolen", "id": 3 }
+  ],
+  "meetingType": [
+    { "name": "Public", "id": 1 },
+    { "name": "Private", "id": 2 }
+  ]
+}

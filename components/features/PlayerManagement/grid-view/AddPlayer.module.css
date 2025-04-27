@@ -1,0 +1,25 @@
+.playerdetails{
+    position: fixed;
+    margin: auto 24px;
+    top: 5.2rem;
+    width: 60%;
+    z-index: 100;
+    padding: 2rem;
+    transition: .3s all ease;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.15) -1.95px -1.95px 2.6px;
+    height: 90%;
+    overflow-y: auto;
+    right: 0;
+    margin-right: 0;
+}
+
+.ipadLogo {
+    background-image: url(../../../../assets//images//ipad.jpg);
+    position: absolute;
+    width: 240px;
+    height: 190px;
+    background-size: contain;
+    left: 5px;
+    top: 4px;
+}

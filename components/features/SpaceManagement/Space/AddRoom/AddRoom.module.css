@@ -1,0 +1,25 @@
+.left_panel {
+    padding: 20px 30px 20px 30px;
+}
+
+.right_panel {
+    background-color: #e4f7ff;
+    overflow-y: scroll;
+    height: inherit;
+}
+
+
+.right_panel_content {
+    padding: 0px 0px 15px 30px;
+
+    border-bottom: 2px solid #81d5f7;
+
+}
+
+.div_scroll
+{
+    float:left;
+    width:1000px;
+    overflow-y: auto;
+    max-height: 600px;
+}

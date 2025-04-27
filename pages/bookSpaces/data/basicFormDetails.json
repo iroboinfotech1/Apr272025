@@ -1,0 +1,7 @@
+{
+    "locations":[{"name":"loc1","id":1}],
+    "buildings":[{"name":"bldg1","id":1}],
+    "floors":[{"name":"flr1","id":1}],
+    "reminders": [{"name":"rem1","id":1}],
+    "meetPersons": [{"name":"per1","id":1}]    
+}
