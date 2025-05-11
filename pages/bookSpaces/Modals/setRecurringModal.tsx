@@ -4,8 +4,12 @@ import Typography from '@mui/material/Typography';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { SelectChangeEvent } from '@mui/material';
 import moment from "moment";
 import { useEffect, useState } from 'react';
+import RadioButtonGroup from "./radiobuttonGroup";
+import { set } from "date-fns";
+
 
 const SetRecurringModal = (props: any) => {
     const [chooseEndDate, setChooseEndDate] = useState<boolean>(true);
@@ -13,17 +17,24 @@ const SetRecurringModal = (props: any) => {
     const [visitDate, setVisitDate] = useState<string>(
         moment().format("YYYY-MM-DD hh:mm:ss a")
     );
+   
+    const [showWeekList, setShowWeekList] = useState(true);
 
     const repeatType = ['day', 'week', 'month', 'year'];
     const [settingsSaved, setSettings] = useState<string>('')
     const [workWeekDays, setWorkWeekDays] = useState<String[]>([])
     const weekList = [" MON", " TUE", " WED", " THU", " FRI", " SAT", " SUN"]
+    const [selectedType, setSelectedType] = useState('day');
 
     useEffect(() => {
         const arrayWorkWeekDays = settingsSaved?.split(',') ?? [];
         setWorkWeekDays(arrayWorkWeekDays);
     }, [])
 
+    useEffect(() => {
+    console.log("visitDate", visitDate);
+}, [visitDate]);
+  
     const onSetChooseEndDate = () => {
         setChooseEndDate(false);
         setRemoveEndDate(true);
@@ -33,8 +44,30 @@ const SetRecurringModal = (props: any) => {
         setChooseEndDate(true);
         setRemoveEndDate(false);
     };
+   
+   const handleChange = (event: SelectChangeEvent) => {
+    const value = event.target.value;
+    setSelectedType(value);
+    renderControl(value); // Call with the selected type
+};
 
-
+   const renderControl = (type: string) => {
+    switch (type) {
+        case 'day':
+        case 'week':
+            setShowWeekList(true);
+            setVisitDate(moment().format("YYYY-MM-DD hh:mm:ss a"));
+            break;
+        case 'month':
+        case 'year':
+            setShowWeekList(false);
+            break;
+        default:
+            setShowWeekList(false);
+            break;
+    }
+};
+ 
     return (
         <div className="m-4">
             <div className="mt-2">
@@ -46,11 +79,11 @@ const SetRecurringModal = (props: any) => {
                             renderInput={(props) => <TextField {...props} />}
                             label="Start Date"
                             value={visitDate}
-                            onChange={(newValue) => {
-                                if (newValue) {
-                                    setVisitDate(newValue);
-                                }
-                            }}
+                           onChange={(newValue) => {
+                            if (newValue) {
+                                setVisitDate(moment(newValue.toDate()).format("YYYY-MM-DD hh:mm:ss a"));
+                            }
+                         }}
                         />
                     </LocalizationProvider>
                 </FormControl>
@@ -86,7 +119,8 @@ const SetRecurringModal = (props: any) => {
                         <Select
                             labelId="reminderLabel"
                             className="text-sm"
-                            value={'day'}
+                            value={selectedType}
+                            onChange={handleChange}
                         >
                             {repeatType.map((item: any, i: number) => {
                                 return (
@@ -97,31 +131,37 @@ const SetRecurringModal = (props: any) => {
                     </FormControl>
                 </div>
             </div>
-            <div className="flex mt-6 flex-wrap">
-                {
-                    weekList.map((x, i) => {
-                        return (
+               {showWeekList ? (
+                    <div className="flex mt-6 flex-wrap">
+                        {weekList.map((x, i) => (
                             <FormControlLabel
                                 key={i}
                                 control={
-                                    <Checkbox value={x}
+                                    <Checkbox
+                                        value={x}
                                         checked={workWeekDays?.includes(x)}
                                         onChange={(e) => {
-                                            let workWeek = workWeekDays ?? [];
-                                            if (e.target.checked)
+                                            let workWeek = [...(workWeekDays ?? [])];
+                                            if (e.target.checked) {
                                                 workWeek.push(e.target.value);
-                                            else
-                                                workWeek.splice(workWeek.indexOf(e.target.value), 1);
-                                            setSettings(workWeek?.toString());
-                                        }} />
+                                            } else {
+                                                workWeek = workWeek.filter(day => day !== e.target.value);
+                                            }
+                                            setSettings(workWeek.toString());
+                                        }}
+                                    />
                                 }
                                 label={x}
                                 labelPlacement="bottom"
                             />
-                        )
-                    })
-                }
-            </div>
+                        ))}
+                    </div>
+                ) : (
+      
+                    <div className="flex flex-col space-y-4 pt-6">
+                        <RadioButtonGroup visitDate={visitDate} />
+                    </div>
+                )}
             <div className="my-2 flex gap-2 items-center mb-4">
                 <span style={{ fontSize: "12px", color: "#a5a0a0" }}>Occurs every {settingsSaved.slice(1)} {removeEndDate && 'until'}</span>
                 {chooseEndDate && <Button className="normal-case p-0 m-0" size="small" onClick={() => onSetChooseEndDate()}>Choose an end date</Button>}
