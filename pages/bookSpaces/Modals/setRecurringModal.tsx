@@ -1,4 +1,4 @@
-import { Button, Checkbox, FormControlLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Button, Checkbox, FormControlLabel, MenuItem, Select, TextField,RadioGroup,Radio } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import Typography from '@mui/material/Typography';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -21,10 +21,15 @@ const SetRecurringModal = (props: any) => {
     const [showWeekList, setShowWeekList] = useState(true);
 
     const repeatType = ['day', 'week', 'month', 'year'];
-    const [settingsSaved, setSettings] = useState<string>('')
+    const [settingsSaved, setSettings] = useState<string>('');
     const [workWeekDays, setWorkWeekDays] = useState<String[]>([])
+<<<<<<< HEAD
     const weekList = [" MON", " TUE", " WED", " THU", " FRI", " SAT", " SUN"]
     const [selectedType, setSelectedType] = useState('day');
+=======
+    const weekList = [" MON", " TUE", " WED", " THU", " FRI", " SAT", " SUN"];
+    const [selectedRepeatType, setSelectedRepeatType] = useState<string>('day');
+>>>>>>> 84b3f5a1588959bc7d57c257d3d0345b87085cee
 
     useEffect(() => {
         const arrayWorkWeekDays = settingsSaved?.split(',') ?? [];
@@ -119,8 +124,13 @@ const SetRecurringModal = (props: any) => {
                         <Select
                             labelId="reminderLabel"
                             className="text-sm"
+<<<<<<< HEAD
                             value={selectedType}
                             onChange={handleChange}
+=======
+                            value={selectedRepeatType}
+                            onChange={(e) => {setSelectedRepeatType(e.target.value);setSettings(`every ${e.target.value}`) }}
+>>>>>>> 84b3f5a1588959bc7d57c257d3d0345b87085cee
                         >
                             {repeatType.map((item: any, i: number) => {
                                 return (
@@ -131,9 +141,17 @@ const SetRecurringModal = (props: any) => {
                     </FormControl>
                 </div>
             </div>
+<<<<<<< HEAD
                {showWeekList ? (
                     <div className="flex mt-6 flex-wrap">
                         {weekList.map((x, i) => (
+=======
+            {(selectedRepeatType === 'week' || selectedRepeatType === 'day') ? 
+            <div className="flex mt-6 flex-wrap">
+                {
+                    weekList.map((x, i) => {
+                        return (
+>>>>>>> 84b3f5a1588959bc7d57c257d3d0345b87085cee
                             <FormControlLabel
                                 key={i}
                                 control={
@@ -154,6 +172,7 @@ const SetRecurringModal = (props: any) => {
                                 label={x}
                                 labelPlacement="bottom"
                             />
+<<<<<<< HEAD
                         ))}
                     </div>
                 ) : (
@@ -162,6 +181,37 @@ const SetRecurringModal = (props: any) => {
                         <RadioButtonGroup visitDate={visitDate} />
                     </div>
                 )}
+=======
+                        )
+                    })
+                }
+            </div>:null}
+            {(selectedRepeatType === 'month' || selectedRepeatType === 'year') ? 
+            <div>
+            <div className="flex mt-1 flex-wrap">
+                    <div className="py-4">
+                        <RadioGroup className="flex justify-between sm:flex-col" row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            //defaultValue=''
+                            name="row-radio-buttons-group"
+                            //value=''
+                            //onChange={(e) => handleValueChange(e.target.value, question)}
+                        >
+                           <FormControlLabel key={0}
+                                    value="10"
+                                    control={<Radio />}
+                                    label={selectedRepeatType === 'month'?"On day 10":"On May 10"}
+                                /> 
+                                <FormControlLabel key={0}
+                                    value="saturday"
+                                    control={<Radio />}
+                                    label={selectedRepeatType === 'month'?"On the second Saturday":"On the second Saturday of May"}
+                                /> 
+                        </RadioGroup>
+                    </div>
+            </div>
+            </div>:null}
+>>>>>>> 84b3f5a1588959bc7d57c257d3d0345b87085cee
             <div className="my-2 flex gap-2 items-center mb-4">
                 <span style={{ fontSize: "12px", color: "#a5a0a0" }}>Occurs every {settingsSaved.slice(1)} {removeEndDate && 'until'}</span>
                 {chooseEndDate && <Button className="normal-case p-0 m-0" size="small" onClick={() => onSetChooseEndDate()}>Choose an end date</Button>}
