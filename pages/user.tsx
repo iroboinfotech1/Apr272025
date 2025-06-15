@@ -21,6 +21,15 @@ const UserManagement = () => {
                 <div className="col-12 col-md-3">
                     <BlockMenu heading="Roles & Permissions" subHeading="Roles & Permissions" icon={BuildingsIcon} onClick={() => Router.push('/user/RolesandPermission')} />
                 </div>
+		<div className="col-12 col-md-3">
+                    <BlockMenu heading="Org-Realm Mapping" subHeading="Org-Realm Mapping" icon={BuildingsIcon} onClick={() => Router.push('/user/OrgRealmMapping')} />
+                </div>
+                <div className="col-12 col-md-3">
+                    <BlockMenu heading="Roles & Attributes" subHeading="Roles & Attributes" icon={BuildingsIcon} onClick={() => Router.push('/user/RolesandAttributes')} />
+                </div>
+                <div className="col-12 col-md-3 p-4">
+                    <BlockMenu heading="User Groups" subHeading="User Group Mapping" icon={BuildingsIcon} onClick={() => Router.push('/user/UserGroupMapping')} />
+                </div>
             </div>
         </Layout>
     )
